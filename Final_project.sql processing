@@ -1,0 +1,106 @@
+INSERT INTO df_review10(business_id,stars,user_id)
+SELECT business_id,stars,user_id
+FROM df_review2
+WHERE user_id IN
+    (     SELECT user_id
+          FROM df_review2
+          GROUP BY user_id
+          HAVING COUNT(*) > 10
+    )
+ORDER BY user_id
+#import df_review
+
+CREATE TABLE df_review(business_id varchar(50),cool int, date date, funny int, review_id varchar(50),stars int, text text, useful int, user_id varchar(50));
+
+
+#import df_business
+
+CREATE TABLE df_business(address varchar(50), attributes text, business_id varchar(50), categories text, city varchar(20), hours text, is_open int, latitude float, longitude float, name varchar(100), neighborhood varchar(500), postal_code varchar(50),review_count int,stars float,state varchar(2), PRIMARY KEY(business_id));
+
+#check drop null df_business("categories")
+
+SELECT * FROM df_business WHERE categories IS NULL OR categories = "";
+
+#Create new df_vegas
+CREATE TABLE df_vegas LIKE df_business
+
+INSERT INTO df_vegas(address, attributes, business_id, categories, city, hours, is_open, latitude, longitude, name, neighborhood, postal_code, review_count, stars, state)
+SELECT address, attributes, business_id, categories, city, hours, is_open, latitude, longitude, name, neighborhood, postal_code, review_count, stars, state
+FROM df_business
+WHERE city = "Las Vegas"
+AND categories LIKE "%Restaurants%"
+AND review_count > 10;
+
+#Create table df_left like df_vegas with features: business_id,name,stars,address,longitude,latitude
+ 
+CREATE TABLE df_left(business_id varchar(50), name varchar(100),avg_stars float,address varchar(50),longitude float, latitude float, PRIMARY KEY(business_id));
+
+# fill values
+
+INSERT INTO df_left(address,business_id,latitude,longitude,name,avg_stars)
+SELECT address,business_id,latitude,longitude,name,stars
+FROM df_vegas;
+
+#Create Table df_right like df_review with features: business_id, review_id, stars, text, user_id
+
+CREATE TABLE df_right(business_id varchar(50), review_id varchar(50), stars float,text text,user_id varchar(50));
+
+#fill values
+
+INSERT INTO df_right(business_id,review_id,stars,text,user_id)
+SELECT business_id,review_id,stars,text,user_id
+FROM df_review;
+
+
+#CREATE df_final inner join df_left & df_right;
+CREATE TABLE df_final(business_id varchar(50), name varchar(100), avg_stars float, address varchar(100), longitude float, latitude float, business_id2 varchar(50),review_id varchar(50),stars int,text text,user_id varchar(50));
+
+INSERT INTO df_final(business_id, name, avg_stars, address, longitude, latitude, business_id2, review_id, stars, text, user_id)
+SELECT * 
+FROM df_left
+INNER JOIN df_right
+On df_left.business_id = df_right.business_id2;
+
+#CREATE df_rating
+
+CREATE TABLE df_rating(user_id varchar(50),business_id varchar(50),stars float);
+
+INSERT INTO df_rating(user_id, business_id, stars)
+SELECT user_id, business_id, stars
+FROM df_final
+WHERE user_id IN
+    (     SELECT user_id
+          FROM df_final
+          GROUP BY user_id
+          HAVING COUNT(*) > 10
+    )
+ And  business_id IN
+    (     SELECT business_id
+          FROM df_final
+          GROUP BY business_id
+          HAVING COUNT(*) > 15
+    )
+ORDER BY user_id
+
+
+#CREATE df_name
+
+CREATE TABLE df_name(business_id varchar(50),name varchar(100));
+
+INSERT INTO df_name(business_id, name)
+SELECT business_id, name
+FROM df_final
+WHERE user_id IN
+    (     SELECT user_id
+          FROM df_final
+          GROUP BY user_id
+          HAVING COUNT(*) > 10
+    )
+ And  business_id IN
+    (     SELECT business_id
+          FROM df_final
+          GROUP BY business_id
+          HAVING COUNT(*) > 15
+    )
+ORDER BY user_id;
+

@@ -20,19 +20,20 @@ Many people nowadays use Yelp to find the restaurants near them. But Yelp does n
 		+ We filtered out all the restaurants in Las Vegas as an subset to run recommendation algorithm
 
 	+ **Recommendation Engine.**
-    + Built different recommendation engine and evalute using recall/precision
+    		+ Built different recommendation engine and evalute using recall/precision
 
 	+ **User Interface.** 
 	 	+ Editted HTML/CSS file and deployed application on Flask
 
 + **Our App:**
 	+ **Introduction: Project Framework**
-![intro](lib/intro.png)
-	+ **Unemployment Rate: Unemployment rate by states and years**
-![unemploy](lib/unemploy.png)
-
-	
-
+![workflow](img/workflow.png)
+	+ **Main Page**
+![main](img/main.png)
+	+ **Prediction**
+![recommend](img/recommend.png)
+	+ **Word Cloud**
+![wordcloud](img/wc.png)
 
 ## Data Sources:
 + From Yelp Challenge Dataset website: https://www.yelp.com/dataset

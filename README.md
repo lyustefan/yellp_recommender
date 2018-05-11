@@ -4,7 +4,7 @@ Term: Spring 2018
 + **Author** 
 	+ Yang Lyu (yl3795)
 
-+ **Link to deployed Shiny-App:**
++ **Link to Website App:**
 http://zh2290.pythonanywhere.com/
 
 ## Introduction:

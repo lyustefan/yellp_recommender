@@ -1,7 +1,7 @@
 # Final Project: Yelp Recommender
 Term: Spring 2018
 
-+ ** Author ** 
++ **Author** 
 	+ Yang Lyu (yl3795)
 
 + **Link to deployed Shiny-App:**

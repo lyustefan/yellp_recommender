@@ -18,10 +18,10 @@ Many people nowadays use Yelp to find the restaurants near them. But Yelp does n
 + **Our Method:**
 	+ **Data Preprocessing.**
 		+ We filtered out all the restaurants in Las Vegas as an subset to run recommendation algorithm
-
+		
 	+ **Recommendation Engine.**
-    		+ Built different recommendation engine and evalute using recall/precision
-
+		+ Built different recommendation engine and evalute using recall/precision
+		
 	+ **User Interface.** 
 	 	+ Editted HTML/CSS file and deployed application on Flask
 
